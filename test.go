@@ -39,21 +39,21 @@ func main() {
 
 	http.HandleFunc("/data", func(w http.ResponseWriter, r *http.Request) {
 
-		sonuçlar, err := istemci.ReadHoldingRegisters(adresi, miktar)
+		sonuclar, err := istemci.ReadHoldingRegisters(adresi, miktar)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		if len(sonuçlar) < int(miktar)*2 {
-			http.Error(w, "No data returned", http.StatusInternalServerError)
+		if len(sonuclar) < int(miktar)*2 {
+			http.Error(w, "deger gelmedi", http.StatusInternalServerError)
 			return
 		}
 
 		var veri []int16
-		for i := 0; i < len(sonuçlar); i += 2 {
-			değer := int16(sonuçlar[i])<<8 | int16(sonuçlar[i+1])
-			veri = append(veri, değer)
+		for i := 0; i < len(sonuclar); i += 2 {
+			deger := int16(sonuclar[i])<<8 | int16(sonuclar[i+1])
+			veri = append(veri, deger)
 		}
 
 		yanit := yanit{Veri: []int16{}}
